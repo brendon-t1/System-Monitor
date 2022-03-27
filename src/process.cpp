@@ -13,12 +13,13 @@ using std::string;
 using std::to_string;
 using std::vector;
 using std::fstream;
+using std::istringstream;
 
 // TODO: Return this process's ID
 int Process::Pid() {return pid;}
 
 // TODO: Return this process's CPU utilization
-float Process::CpuUtilization(int pid) {
+float Process::CpuUtilization() {
     string line, one;
     int zero, three, four, five, six, seven, nine, eleven, twelve;
     int thirteen, utime, stime, cutime, cstime;
@@ -26,7 +27,7 @@ float Process::CpuUtilization(int pid) {
     long eight, ten, starttime;
     char two;
     fstream file;
-    file.open(kProcDirectory + to_string(pid) + kStatFilename, std::ios::in);
+    file.open(LinuxParser::kProcDirectory + to_string(Process::Pid()) + LinuxParser::kStatFilename, std::ios::in);
         if(file.is_open()){
             getline(file, line);
             istringstream stream(line);
@@ -38,7 +39,7 @@ float Process::CpuUtilization(int pid) {
     long total_time = utime + stime ;//#14 utime + #15 stime also add #16 cutime and #17 cstime if we want to include the time from the childrens processes
     long seconds = LinuxParser::UpTime(pid) - ( starttime / sysconf(_SC_CLK_TCK));//uptime - (#22 starttime / Hertz)
     //Hertz is sysconf(_SC_CLK_TCK)
-    float cpu_usage = 100 * ((total_time / Hertz) / seconds);
+    float cpu_usage = ((total_time / sysconf(_SC_CLK_TCK)) / seconds);
     return cpu_usage;
     
 }

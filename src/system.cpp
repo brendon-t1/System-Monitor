@@ -18,7 +18,7 @@ using std::vector;
 You need to properly format the uptime. Refer to the comments mentioned in format. cpp for formatting the uptime.*/
 
 // TODO: Return the system's CPU
-Processor& System::Cpu() { Processor::Utilization(); }//getter
+Processor& System::Cpu() { return *new Processor(); }
 
 // TODO: Return a container composed of the system's processes
 //the vector is holding Process class objects
