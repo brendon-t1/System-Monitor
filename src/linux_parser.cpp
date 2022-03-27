@@ -284,7 +284,7 @@ string LinuxParser::Ram(int pid) {
     	replace(line.begin(), line.end(), ':', ' ');
       istringstream stream(line);
      	stream >> key >> value;
-      if(key == "Vmsize"){
+      if(key == "VmSize"){
         ram = value;     
       }
     }
@@ -350,5 +350,6 @@ long LinuxParser::UpTime(int pid) {
         }
       }
     time = stoi(value);
-    return (time / sysconf(_SC_CLK_TCK));
+    //return (time / sysconf(_SC_CLK_TCK));
+  return time;
 }

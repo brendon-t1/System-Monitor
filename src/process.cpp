@@ -36,19 +36,28 @@ float Process::CpuUtilization() {
             eighteen >> nineteen >> twenty >> twenty_one >> starttime;
             file.close();
         }
-    long total_time = utime + stime ;//#14 utime + #15 stime also add #16 cutime and #17 cstime if we want to include the time from the childrens processes
-    long seconds = LinuxParser::UpTime(pid) - ( starttime / sysconf(_SC_CLK_TCK));//uptime - (#22 starttime / Hertz)
+  	float ticks = sysconf(_SC_CLK_TCK);
+  	float uptime = LinuxParser::UpTime();
+  	float start_time = LinuxParser::UpTime(pid);
+    float total_time = utime + stime;//#14 utime + #15 stime also add #16 cutime and #17 cstime if we want to include the time from the childrens processes
+    float seconds = uptime - ( start_time / ticks);//uptime - (#22 starttime / Hertz)
     //Hertz is sysconf(_SC_CLK_TCK)
-    float cpu_usage = ((total_time / sysconf(_SC_CLK_TCK)) / seconds);
+    float cpu_usage = 100 * ((total_time / ticks) / seconds);
     return cpu_usage;
     
 }
 
 // TODO: Return the command that generated this process
-string Process::Command() { return LinuxParser::Command(Process::Pid()); }
+string Process::Command() { return  LinuxParser::Command(Process::Pid()); }
 
-// TODO: Return this process's memory utilization
-string Process::Ram() { return LinuxParser::Ram(Process::Pid());  }
+//  DO: Return this process's memory utilization
+string Process::Ram() {
+	string ram =LinuxParser::Ram(Process::Pid());
+	int mb = stoi(ram);
+  	mb /= 1024;
+  	string ram_mb = to_string(mb);
+  	return ram_mb;
+}
 
 // TODO: Return the user (name) that generated this process
 string Process::User() { return LinuxParser::User(Process::Pid());}
