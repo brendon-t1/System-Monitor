@@ -21,21 +21,13 @@ You need to properly format the uptime. Refer to the comments mentioned in forma
 Processor& System::Cpu() { return *new Processor(); }
 
 // TODO: Return a container composed of the system's processes
-//the vector is holding Process class objects
 vector<Process>& System::Processes() { 
-    //make a vector of all of the pids in the system
    vector<int> pids = LinuxParser::Pids(); 
-   //loop through all of them
    for(int pid: pids){
        Process process(pid);
-       //for every pid in pids make a Process class object
        process.CpuUtilization();
-       //get the cpu utilization
        processes_.push_back(process);
-       //add every process to the processes_ vector
    }
-    
-    
    return processes_;  
 }
 
@@ -57,7 +49,4 @@ int System::TotalProcesses() { return LinuxParser::TotalProcesses(); }
 // TODO: Return the number of seconds since the system started running
 long int System::UpTime() { 
     return LinuxParser::UpTime();
-    // long time = LinuxParser::UpTime(); 
-    // string military_time = Format::ElapsedTime(time);
-    // return military_time; 
 }

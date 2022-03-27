@@ -39,9 +39,8 @@ float Process::CpuUtilization() {
   	float ticks = sysconf(_SC_CLK_TCK);
   	float uptime = LinuxParser::UpTime();
   	float start_time = LinuxParser::UpTime(pid);
-    float total_time = utime + stime;//#14 utime + #15 stime also add #16 cutime and #17 cstime if we want to include the time from the childrens processes
-    float seconds = uptime - ( start_time / ticks);//uptime - (#22 starttime / Hertz)
-    //Hertz is sysconf(_SC_CLK_TCK)
+    float total_time = utime + stime;
+    float seconds = uptime - ( start_time / ticks);
     float cpu_usage = 100 * ((total_time / ticks) / seconds);
     return cpu_usage;
     
