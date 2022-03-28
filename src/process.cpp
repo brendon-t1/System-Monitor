@@ -11,6 +11,7 @@
 
 using std::string;
 using std::to_string;
+using std::stoi;
 using std::vector;
 using std::fstream;
 using std::istringstream;
