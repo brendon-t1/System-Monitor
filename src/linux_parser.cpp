@@ -321,13 +321,12 @@ long LinuxParser::UpTime(int pid) {
     if (file.is_open()) {
       while (getline(file, line)) {
         istringstream stream(line);
-        //loop through the stream to find value 22
  		    for(int i=0; i<22; i++) {
             stream >> value;
           }
           file.close();
         }
       }
-    time = stoi(value);
+    time = stol(value);
   return time;
 }
