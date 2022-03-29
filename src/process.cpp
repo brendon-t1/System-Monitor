@@ -65,8 +65,8 @@ long int Process::UpTime() {
     process_uptime /= sysconf(_SC_CLK_TCK);
     long total_uptime = LinuxParser::UpTime();
     total = total_uptime - process_uptime;
-
-}//need to convert to seconds?
+    return total;
+}
 
 bool Process::operator<(Process const& a) const {
 	return a.cpu < cpu;	
