@@ -62,7 +62,7 @@ string Process::User() { return LinuxParser::User(Process::Pid());}
 long int Process::UpTime() {
     long total = 0;
     long process_uptime = LinuxParser::UpTime(Process::Pid()); 
-    process_up /= sysconf(_SC_CLK_TCK);
+    process_uptime /= sysconf(_SC_CLK_TCK);
     long total_uptime = LinuxParser::UpTime();
     total = total_uptime - process_uptime;
 
