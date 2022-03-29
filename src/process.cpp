@@ -16,10 +16,8 @@ using std::vector;
 using std::fstream;
 using std::istringstream;
 
-// TODO: Return this process's ID
 int Process::Pid() {return pid;}
 
-// TODO: Return this process's CPU utilization
 float Process::CpuUtilization() {
     string line, one;
     int zero, three, four, five, six, seven, nine, eleven, twelve;
@@ -42,15 +40,13 @@ float Process::CpuUtilization() {
   	float start_time = LinuxParser::UpTime(pid);
     float total_time = utime + stime;
     float seconds = uptime - ( start_time / ticks);
-    float cpu_usage = 100 * ((total_time / ticks) / seconds);
+    float cpu_usage = ((total_time / ticks) / seconds);//removed the 100 here
     return cpu_usage;
     
 }
 
-// TODO: Return the command that generated this process
 string Process::Command() { return  LinuxParser::Command(Process::Pid()); }
 
-//  DO: Return this process's memory utilization
 string Process::Ram() {
 	string ram =LinuxParser::Ram(Process::Pid());
 	int mb;
@@ -61,13 +57,17 @@ string Process::Ram() {
   	return ram_mb;
 }
 
-// TODO: Return the user (name) that generated this process
 string Process::User() { return LinuxParser::User(Process::Pid());}
 
-// TODO: Return the age of this process (in seconds)
-long int Process::UpTime() { return LinuxParser::UpTime(Process::Pid()); }//need to convert to seconds?
+long int Process::UpTime() {
+    long total = 0;
+    long process_uptime = LinuxParser::UpTime(Process::Pid()); 
+    process_up /= sysconf(_SC_CLK_TCK);
+    long total_uptime = LinuxParser::UpTime();
+    total = total_uptime - process_uptime;
 
-// TODO: Overload the "less than" comparison operator for Process objects
+}//need to convert to seconds?
+
 bool Process::operator<(Process const& a) const {
 	return a.cpu < cpu;	
 }
