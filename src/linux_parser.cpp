@@ -88,10 +88,12 @@ float LinuxParser::MemoryUtilization() {
           istringstream stream(line);
         	stream >> key >> value >> size;
           if(key == "MemTotal") {
-            total = stof(value);
+            if(value == "") {total = 0;}
+            else {total = stof(value);}
           }
           if(key == "MemAvailable") {
-            free = stof(value);
+            if(value == "") {free = 0;}
+            else {free = stof(value);}
           }
         }
       file.close();
@@ -213,7 +215,8 @@ int LinuxParser::TotalProcesses() {
         istringstream stream(line);
     	  stream >> key >> value; 
           if(key == "processes"){
-            total_processes = stoi(value);
+            if(value == "") {total_processes = 0;}
+            else {total_processes = stoi(value);}
           }  
       }
       file.close();
@@ -232,7 +235,8 @@ int LinuxParser::RunningProcesses() {
       istringstream stream(line);
     	stream >> key >> value; 
         if(key == "procs_running"){
-          running_processes = stoi(value);
+          if(value == "") {running_processes = 0;}
+          else {running_processes = stoi(value);}
         }    
     }
     file.close();
@@ -324,9 +328,10 @@ long LinuxParser::UpTime(int pid) {
  		    for(int i=0; i<22; i++) {
             stream >> value;
           }
-          file.close();
-        }
+        if(value == ""){time = 0;}
+        else{time = std::stol(value);}
       }
-    time = stol(value);
+      file.close();
+    }
   return time;
 }
